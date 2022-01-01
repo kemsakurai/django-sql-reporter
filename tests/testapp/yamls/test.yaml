@@ -9,6 +9,7 @@
   recipient_list:
     - qaz@example.com
     - wsx@example.com
+  notify_success: True
 
 - description: |-
     sqlite_sequenceへレコードカウントを取得するSQLを実行する
@@ -20,6 +21,7 @@
   expect: [{"cnt": 1}]
   recipient_list:
     - qaz@example.com
+  notify_success: False
 
 - description: |-
     SQLエラーが発生する
@@ -32,3 +34,4 @@
   recipient_list:
     - qaz@example.com
     - wsx@example.com
+  notify_success: False

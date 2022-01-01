@@ -9,6 +9,7 @@ import sys
 
 from tests.testapp.settings import BASE_DIR
 
+
 def dict_fetch_all(cursor):
     "Return all rows from a cursor as a dict"
     columns = [col[0] for col in cursor.description]
@@ -55,20 +56,33 @@ class Command(BaseCommand):
                             file_name = Path(file).name
 
                             # ステータス:送信中で保存
-                            result = SQLResultReport(name=file_name, body=records, send_status=1)
+                            result = SQLResultReport(name=file_name, body=records, send_status=1, result_status=1)
                             result.save()
 
                             print("====================", file=sys.stderr)
                             print("sendmail start", file=sys.stderr)
-
                             send_mail(file_name, monitor["description"], "test@exeample.com", monitor["recipient_list"])
+
                             result.send_status = 2
                             result.save()
 
                         else:
-                            file_name = Path(file).name
-                            result = SQLResultReport(name=file_name, body=records, send_status=2)
-                            result.save()
+                            if monitor['notify_success']:
+                                file_name = Path(file).name
+                                result = SQLResultReport(name=file_name, body=records, send_status=1, result_status=0)
+                                result.save()
+
+                                print("====================", file=sys.stderr)
+                                print("sendmail start", file=sys.stderr)
+                                send_mail(file_name, monitor["description"], "test@exeample.com", monitor["recipient_list"])
+
+                                result.send_status = 2
+                                result.save()
+
+                            else:
+                                file_name = Path(file).name
+                                result = SQLResultReport(name=file_name, body=records, send_status=2, result_status=0)
+                                result.save()
 
                     except Exception as e:
                             print(e, file=sys.stderr)
