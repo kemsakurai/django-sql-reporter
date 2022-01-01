@@ -1,0 +1,34 @@
+- description: |-
+    sqlite_masterへレコードカウントを取得するSQLを実行する
+  sql: |-
+    SELECT
+      COUNT(*) AS cnt
+    FROM
+      sqlite_master
+  expect: [{"cnt": 1}]
+  recipient_list:
+    - qaz@example.com
+    - wsx@example.com
+
+- description: |-
+    sqlite_sequenceへレコードカウントを取得するSQLを実行する
+  sql: |-
+    SELECT
+      COUNT(*) AS cnt
+    FROM
+      sqlite_sequence
+  expect: [{"cnt": 1}]
+  recipient_list:
+    - qaz@example.com
+
+- description: |-
+    SQLエラーが発生する
+  sql: |-
+    SELEC
+      COUNT(*) AS cnt
+    FROM
+      sqlite_sequence
+  expect: [{"cnt": 1}]
+  recipient_list:
+    - qaz@example.com
+    - wsx@example.com

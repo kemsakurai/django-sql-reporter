@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# PyCharm settings
+.idea
+.idea/
+.idea/modules.xml
+.idea/vcs.xml
